@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
+const cors = require('cors');
 const createHeroesRoutes = require('./routes/hero');
 
 const app = express();
@@ -9,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 MongoClient.connect(MONGODB_URI)
     .then(client => {
