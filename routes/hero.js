@@ -3,34 +3,35 @@ const { ObjectId } = require('mongodb');
 
 const createHeroesRoutes = (db) => {
     const router = express.Router();
-    const heroesCollection = db.collection('heroes');
+    const heroesCollection = db.collection('hero');
 
     router.get('/', (req, res) => {
         heroesCollection.find().toArray()
             .then(results => {
                 res.json(results);
             })
-            .catch(error => {
-                res.status(500).send('Ошибка при получении записей Hero');
+            .catch(() => {
+                res.status(500).send('Ошибка получения баннера');
             });
     });
 
     router.put('/:id', (req, res) => {
         const { id } = req.params;
         const { title, description } = req.body;
+
         heroesCollection.updateOne(
             { _id: new ObjectId(id) },
             { $set: { title, description } }
         )
             .then(result => {
                 if (result.matchedCount > 0) {
-                    res.send(`Запись Hero с id ${id} успешно обновлена`);
+                    res.send(`Баннер с идентификатором ${id} успешно обновлен`);
                 } else {
-                    res.status(404).send('Запись Hero не найдена');
+                    res.status(404).send('Баннер не найден');
                 }
             })
-            .catch(error => {
-                res.status(500).send('Ошибка при обновлении записи Hero');
+            .catch(() => {
+                res.status(500).send('Ошибка обновления баннера');
             });
     });
 

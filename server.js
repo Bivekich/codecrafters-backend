@@ -1,27 +1,33 @@
-require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
-const createHeroesRoutes = require('./routes/hero');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI;
+const port = process.env.PORT || 3000;
+const mongoUri = process.env.MONGODB_URI;
 
-app.use(bodyParser.json());
-app.use(cors());
+let db;
 
-MongoClient.connect(MONGODB_URI)
+MongoClient.connect(mongoUri)
     .then(client => {
-        const db = client.db();
+        db = client.db();
+        console.log('Успешно подключен к MongoDB');
+
+        app.use(cors());
+        app.use(express.json());
+
+        const createHeroesRoutes = require('./routes/hero');
+        const createOrdersRoutes = require('./routes/orders');
 
         app.use('/hero', createHeroesRoutes(db));
+        app.use('/orders', createOrdersRoutes(db));
 
-        app.listen(PORT, () => {
-            console.log(`Сервер запущен на порту ${PORT}`);
+        app.listen(port, () => {
+            console.log(`Сервер работает по порту: ${port}`);
         });
     })
     .catch(error => {
-        console.error('Ошибка подключения к MongoDB:', error);
+        console.error('Ошибка при подключении к MongoDB:', error);
+        process.exit(1);
     });
