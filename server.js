@@ -19,9 +19,11 @@ MongoClient.connect(mongoUri)
 
         const createHeroesRoutes = require('./routes/hero');
         const createOrdersRoutes = require('./routes/orders');
+        const createTechnologiesRoutes = require('./routes/technologies')
 
         app.use('/hero', createHeroesRoutes(db));
         app.use('/orders', createOrdersRoutes(db));
+        app.use('/technologies', createTechnologiesRoutes(db));
 
         app.listen(port, () => {
             console.log(`Сервер работает по порту: ${port}`);
