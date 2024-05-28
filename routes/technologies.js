@@ -16,8 +16,8 @@ const createTechnologiesRoutes = (db) => {
 
     router.post('/', async (req, res) => {
         try {
-            const { name, firstColor, secondColor, isMain, image } = req.body;
-            const newTechnology = { name, firstColor, secondColor, isMain, image: isMain ? image : null };
+            const { title, name, description, isMain, group } = req.body;
+            const newTechnology = { title, name, description: isMain ? description: null, isMain, group: !isMain ? group: null };
             const result = await technologiesCollection.insertOne(newTechnology);
             res.status(201).send(`Технология с идентификатором ${result.insertedId} успешно создана`);
         } catch (error) {
@@ -27,8 +27,8 @@ const createTechnologiesRoutes = (db) => {
 
     router.put('/:id', async (req, res) => {
         try {
-            const { name, firstColor, secondColor, isMain, image } = req.body;
-            const updateData = { name, firstColor, secondColor, isMain, image: isMain ? image : null };
+            const { title, name, description, isMain, group} = req.body;
+            const updateData = { title, name, description: isMain ? description: null, isMain, group: !isMain ? group: null };
             const result = await technologiesCollection.updateOne(
                 { _id: new ObjectId(req.params.id) },
                 { $set: updateData }
