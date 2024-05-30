@@ -1,7 +1,7 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
 
-const createTechnologiesRoutes = (db) => {
+const createCommentsRoutes = (db) => {
     const router = express.Router();
     const commentsCollection = db.collection('comments');
 
@@ -59,4 +59,4 @@ const createTechnologiesRoutes = (db) => {
     return router;
 };
 
-module.exports = createTechnologiesRoutes;
+module.exports = createCommentsRoutes;

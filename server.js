@@ -23,6 +23,7 @@ MongoClient.connect(mongoUri)
         const createAuthRoutes = require('./routes/auth')
         const createContactRoutes = require('./routes/contact')
         const createCommentsRoutes = require('./routes/comments')
+        const createUsersRoutes = require('./routes/users')
 
         app.use('/hero', createHeroesRoutes(db));
         app.use('/orders', createOrdersRoutes(db));
@@ -30,6 +31,7 @@ MongoClient.connect(mongoUri)
         app.use('/auth', createAuthRoutes(db));
         app.use('/contact', createContactRoutes(db));
         app.use('/comments', createCommentsRoutes(db));
+        app.use('/telegram_users', createUsersRoutes(db));
 
         app.listen(port, () => {
             console.log(`Сервер работает по порту: ${port}`);
